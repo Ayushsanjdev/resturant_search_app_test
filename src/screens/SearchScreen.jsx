@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
 import useResults from "../hooks/useResults";
@@ -6,7 +6,7 @@ import ResultsList from "../components/ResultList";
 import SplashLoader from "../../assets/splash2.gif";
 import ErrorPage from "../components/ErrorPage";
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
   const [searchApi, results, error, loader] = useResults();
 
@@ -15,6 +15,10 @@ const SearchScreen = () => {
       return result.price === price;
     });
   };
+
+  useEffect(() => {
+    setTerm('')
+  },[error])
 
   return loader ? (
     <Image source={SplashLoader} style={styles.loaderImage} />
@@ -29,11 +33,20 @@ const SearchScreen = () => {
         <ErrorPage />
       ) : (
         <ScrollView>
-          <ResultsList results={filterResultByPrice("$")} title='Big Savers' />
-          <ResultsList title='Bit Saver' results={filterResultByPrice("$$")} />
+          <ResultsList
+            results={filterResultByPrice("$")}
+            title='Big Savers'
+            navigation={navigation}
+          />
+          <ResultsList
+            title='Bit Saver'
+            results={filterResultByPrice("$$")}
+            navigation={navigation}
+          />
           <ResultsList
             results={filterResultByPrice("$$$")}
             title='Big Expense'
+            navigation={navigation}
           />
         </ScrollView>
       )}

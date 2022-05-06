@@ -30,5 +30,5 @@ export default () => {
     searchApi();
   }, []);
 
-  return [searchApi, results, error, loader];
+  return [searchApi, results, error, loader, setLoader, setError];
 };
