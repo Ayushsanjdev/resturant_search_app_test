@@ -4,9 +4,9 @@
     "slug": "food",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/splash2.gif",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/yelp.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,7 +26,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/yelp.png"
     }
   }
 }
