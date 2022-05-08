@@ -10,27 +10,26 @@ import {
 import yelp from "../api/yelp";
 import ErrorPage from "../components/ErrorPage";
 import useResults from "../hooks/useResults";
+import Loader from "../loader/Loader";
 
 const ResultShowScreen = ({ navigation }) => {
   const [result, setResult] = useState(null);
-  const [loader, setLoader, error, setError] = useResults();
-  console.log(result);
-
+  const [loader, setLoader] = useState(false);
   const id = navigation.getParam("id");
 
   const getResult = async (id) => {
-    // setLoader(true)
+    setLoader(true);
     try {
       const response = await yelp.get(`/${id}`);
       setResult(response.data);
-      // setLoader(false);
+      setLoader(false);
     } catch (error) {
-      // setLoader(false);
-      // setError(true);
+      setLoader(false);
     }
   };
 
   useEffect(() => {
+    setLoader(true);
     getResult(id);
   }, []);
 
@@ -38,17 +37,15 @@ const ResultShowScreen = ({ navigation }) => {
     return null;
   }
 
-  // return loader ? (
-  //   <ActivityIndicator
-  //     size='large'
-  //     color='#0000ff'
-  //     style={styles.loaderStyle}
-  //   />
-  // ) : (
-  return (
+  return loader ? (
+    <Loader secondary />
+  ) : (
+    // return (
     <View style={styles.container}>
       <Text style={styles.title}>{result.name}</Text>
-      <Text style={styles.subtitle}>{result.location.address1}, {result.display_phone}</Text>
+      <Text style={styles.subtitle}>
+        {result.location.address1}, {result.display_phone}
+      </Text>
       <FlatList
         data={result.photos}
         keyExtractor={(photo) => photo}
@@ -75,9 +72,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   subtitle: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#444'
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#444",
   },
   image: {
     height: 200,

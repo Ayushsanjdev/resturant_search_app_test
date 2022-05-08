@@ -26,9 +26,9 @@ export default () => {
 
   // Call search api when component is first rendered.
   useEffect(() => {
-    setLoader(true);
+    // setLoader(true);
     searchApi();
   }, []);
 
-  return [searchApi, results, error, loader, setLoader, setError];
+  return [searchApi, results, error, loader, setLoader];
 };

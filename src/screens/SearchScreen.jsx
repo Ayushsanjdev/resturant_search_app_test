@@ -3,8 +3,8 @@ import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultList";
-import SplashLoader from "../../assets/splash2.gif";
 import ErrorPage from "../components/ErrorPage";
+import Loader from "../loader/Loader";
 
 const SearchScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
@@ -17,11 +17,11 @@ const SearchScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    setTerm('')
-  },[error])
+    setTerm("");
+  }, [error]);
 
   return loader ? (
-    <Image source={SplashLoader} style={styles.loaderImage} />
+    <Loader primary />
   ) : (
     <>
       <SearchBar
