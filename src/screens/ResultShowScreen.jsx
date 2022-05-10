@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  View,
-  FlatList,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { Image, View, FlatList, Text, StyleSheet } from "react-native";
 import yelp from "../api/yelp";
-import ErrorPage from "../components/ErrorPage";
-import useResults from "../hooks/useResults";
 import Loader from "../loader/Loader";
 
-const ResultShowScreen = ({ navigation }) => {
+const ResultShowScreen = ({ route }) => {
   const [result, setResult] = useState(null);
   const [loader, setLoader] = useState(false);
-  const id = navigation.getParam("id");
+  const { id } = route.params;
 
   const getResult = async (id) => {
     setLoader(true);
@@ -40,7 +31,6 @@ const ResultShowScreen = ({ navigation }) => {
   return loader ? (
     <Loader secondary />
   ) : (
-    // return (
     <View style={styles.container}>
       <Text style={styles.title}>{result.name}</Text>
       <Text style={styles.subtitle}>

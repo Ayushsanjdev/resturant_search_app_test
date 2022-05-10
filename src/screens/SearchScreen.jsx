@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/search/SearchBar";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultList";
-import ErrorPage from "../components/ErrorPage";
+import ErrorPage from "../error/ErrorPage";
 import Loader from "../loader/Loader";
 
 const SearchScreen = ({ navigation }) => {
