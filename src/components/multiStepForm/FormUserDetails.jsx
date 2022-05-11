@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { TextInput, Button, Appbar } from "react-native-paper";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
@@ -7,7 +8,7 @@ const FormUserDetails = (props) => {
   const { nextStep, userDetails, handleUserDetails } = props;
 
   const continueStep = (values) => {
-    handleUserDetails(values)
+    handleUserDetails(values);
     nextStep();
   };
 
@@ -31,7 +32,7 @@ const FormUserDetails = (props) => {
 
   return (
     <View>
-      <Text
+      {/* <Text
         style={{
           backgroundColor: "skyblue",
           textAlign: "center",
@@ -40,7 +41,13 @@ const FormUserDetails = (props) => {
         }}
       >
         Enter User Details
-      </Text>
+      </Text> */}
+      <Appbar.Header style={{ marginTop: 0 }}>
+        <Appbar.Content
+          titleStyle={{ textAlign: "center" }}
+          title='Enter User Details'
+        />
+      </Appbar.Header>
       <Formik
         validationSchema={stepOneValidationSchema}
         initialValues={userDetails}
@@ -60,51 +67,63 @@ const FormUserDetails = (props) => {
           return (
             <View style={{ padding: 20 }}>
               <View style={styles.lableContainer}>
-                <Text style={styles.label}>First Name</Text>
+                {/* <Text style={styles.label}>First Name</Text> */}
                 {errors.firstName && touched.firstName && (
                   <Text style={styles.error}>{errors.firstName}</Text>
                 )}
               </View>
-                <TextInput
-                  style={styles.input}
-                  placeholder='Justin'
-                  onChangeText={handleChange("firstName")}
-                  value={values.firstName}
-                  onBlur={handleBlur("firstName")}
-                />
+              <TextInput
+                error={errors.firstName && touched.firstName}
+                label='First Name'
+                style={styles.input}
+                placeholder='Justin'
+                onChangeText={handleChange("firstName")}
+                value={values.firstName}
+                onBlur={() => setFieldTouched("firstName")}
+              />
               <View style={styles.lableContainer}>
-                <Text style={styles.label}>Last Name</Text>
+                {/* <Text style={styles.label}>Last Name</Text> */}
                 {errors.lastName && touched.lastName && (
                   <Text style={styles.error}>{errors.lastName}</Text>
                 )}
               </View>
-                <TextInput
-                  style={styles.input}
-                  placeholder='Smith'
-                  onChangeText={handleChange("lastName")}
-                  onBlur={handleBlur("lastName")}
-                  value={values.lastName}
-                />
+              <TextInput
+                label='Last Name'
+                error={errors.lastName && touched.lastName}
+                style={styles.input}
+                placeholder='Smith'
+                onChangeText={handleChange("lastName")}
+                onBlur={() => setFieldTouched("lastName")}
+                value={values.lastName}
+              />
               <View style={styles.lableContainer}>
-                <Text style={styles.label}>Email</Text>
+                {/* <Text style={styles.label}>Email</Text> */}
                 {errors.email && touched.email && (
                   <Text style={styles.error}>{errors.email}</Text>
                 )}
               </View>
-                <TextInput
-                  style={styles.input}
-                  placeholder='example@email.com'
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  value={values.email}
-                  keyboardType='email-address'
-                />
-              <View style={{ paddingHorizontal: 100, paddingVertical: 10 }}>
+              <TextInput
+                label='Email'
+                left={<TextInput.Icon name='email' />}
+                error={errors.email && touched.email}
+                style={styles.input}
+                placeholder='example@email.com'
+                onChangeText={handleChange("email")}
+                onBlur={() => setFieldTouched("email")}
+                value={values.email}
+                keyboardType='email-address'
+              />
+              <View style={{ paddingVertical: 10 }}>
                 <Button
+                  icon='chevron-right-circle-outline'
+                  mode='contained'
+                  style={{ width: 200, alignSelf: 'center'}}
+                  contentStyle={{ flexDirection: "row-reverse" }}
                   disabled={!isValid}
-                  title='Continue'
                   onPress={() => handleSubmit(values)}
-                />
+                >
+                  Continue
+                </Button>
               </View>
             </View>
           );
@@ -115,11 +134,11 @@ const FormUserDetails = (props) => {
 };
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#aaa",
-    padding: 7,
-    marginVertical: 12
+    // borderWidth: 1,
+    // borderRadius: 5,
+    // borderColor: "#aaa",
+    // padding: 7,
+    marginVertical: 12,
   },
   label: {
     fontWeight: "bold",
@@ -129,9 +148,9 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   lableContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginBottom: -10
+    justifyContent: "space-between",
+    flexDirection: "column",
+    marginBottom: -10,
   },
 });
 

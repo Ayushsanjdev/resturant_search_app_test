@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
+import { StyleSheet, Text, View, Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native";
 
 const Success = ({ handleResetForm }) => {
@@ -41,12 +42,14 @@ const Success = ({ handleResetForm }) => {
           You will get an email with further instructions!
         </Text>
         <Button
+          mode="outlined"
+          icon="refresh"
           onPress={() => {
             handleResetForm();
             navigation.navigate("Form");
           }}
           title='Start Again'
-        />
+        >Start Again</Button>
       </View>
     </>
   );

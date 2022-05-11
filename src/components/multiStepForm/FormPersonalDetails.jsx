@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { Button, Appbar, TextInput } from "react-native-paper";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
@@ -14,7 +15,7 @@ const FormPersonalDetails = (props) => {
   const backStep = (values) => {
     handleUserDetails(values);
     prevStep();
-  }
+  };
 
   const stepTwoValidationSchema = Yup.object({
     occupation: Yup.string()
@@ -25,15 +26,12 @@ const FormPersonalDetails = (props) => {
       .matches(/^[aA-zZ\s]+$/, "Please enter valid city")
       .max(40)
       .required("City is required!"),
-    bio: Yup.string()
-      .min(10)
-      .max(100)
-      .required()
+    bio: Yup.string().min(10).max(100).required(),
   });
 
   return (
     <View>
-      <Text
+      {/* <Text
         style={{
           backgroundColor: "skyblue",
           textAlign: "center",
@@ -42,7 +40,13 @@ const FormPersonalDetails = (props) => {
         }}
       >
         Enter Personal Details
-      </Text>
+      </Text> */}
+      <Appbar.Header style={{ marginTop: 0 }}>
+        <Appbar.Content
+          titleStyle={{ textAlign: "center" }}
+          title='Enter Personal Details'
+        />
+      </Appbar.Header>
       <Formik
         validationSchema={stepTwoValidationSchema}
         initialValues={userDetails}
@@ -62,54 +66,64 @@ const FormPersonalDetails = (props) => {
           return (
             <View style={{ padding: 20 }}>
               <View style={styles.lableContainer}>
-                <Text style={styles.label}>Occupation</Text>
+                {/* <Text style={styles.label}>Occupation</Text> */}
                 {errors.occupation && touched.occupation && (
                   <Text style={styles.error}>{errors.occupation}</Text>
                 )}
               </View>
-                <TextInput
-                  style={styles.input}
-                  placeholder='Executive'
-                  onChangeText={handleChange("occupation")}
-                  value={values.occupation}
-                  onBlur={handleBlur("occupation")}
-                />
+              <TextInput
+                error={errors.occupation && touched.occupation}
+                label='Occupation'
+                style={styles.input}
+                placeholder='Executive'
+                onChangeText={handleChange("occupation")}
+                value={values.occupation}
+                onBlur={handleBlur("occupation")}
+              />
               <View style={styles.lableContainer}>
-                <Text style={styles.label}>Enter your city</Text>
+                {/* <Text style={styles.label}>Enter your city</Text> */}
                 {errors.city && touched.city && (
                   <Text style={styles.error}>{errors.city}</Text>
                 )}
               </View>
-                <TextInput
-                  style={styles.input}
-                  placeholder='Mumbai'
-                  onChangeText={handleChange("city")}
-                  onBlur={handleBlur("city")}
-                  value={values.city}
-                />
+              <TextInput
+                error={errors.city && touched.city}
+                label='City'
+                style={styles.input}
+                placeholder='Mumbai'
+                onChangeText={handleChange("city")}
+                onBlur={handleBlur("city")}
+                value={values.city}
+              />
               <View style={styles.lableContainer}>
-                <Text style={styles.label}>Enter your bio</Text>
+                {/* <Text style={styles.label}>Enter your bio</Text> */}
                 {errors.bio && touched.bio && (
                   <Text style={styles.error}>{errors.bio}</Text>
                 )}
               </View>
-                <TextInput
-                  style={styles.input}
-                  placeholder='Enter your Bio'
-                  onChangeText={handleChange("bio")}
-                  onBlur={handleBlur("bio")}
-                  value={values.bio}
-                />
-              <View style={{ flexDirection: 'row', paddingVertical: 10, justifyContent: 'space-evenly' }}>
-                <Button
-                  title='Back'
-                  onPress={() => backStep(values)}
-                />
+              <TextInput
+                error={errors.bio && touched.bio}
+                style={styles.input}
+                placeholder='Enter your Bio'
+                onChangeText={handleChange("bio")}
+                onBlur={handleBlur("bio")}
+                value={values.bio}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  paddingVertical: 10,
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <Button mode="outlined" icon="chevron-left-circle-outline" onPress={() => backStep(values)}>Back</Button>
                 <Button
                   disabled={!isValid}
-                  title='Continue'
+                  mode="contained"
+                  contentStyle={{flexDirection: 'row-reverse'}}
+                  icon="chevron-right-circle-outline"
                   onPress={() => handleSubmit(values)}
-                />
+                >Continue</Button>
               </View>
             </View>
           );
@@ -120,11 +134,11 @@ const FormPersonalDetails = (props) => {
 };
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#aaa",
-    padding: 7,
-    marginVertical: 12
+    // borderWidth: 1,
+    // borderRadius: 5,
+    // borderColor: "#aaa",
+    // padding: 7,
+    marginVertical: 12,
   },
   label: {
     fontWeight: "bold",
@@ -134,9 +148,9 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   lableContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginBottom: -10
+    // justifyContent: "space-between",
+    // flexDirection: "row",
+    marginBottom: -10,
   },
 });
 

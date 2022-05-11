@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, FlatList } from "react-native";
+import { Appbar, List, Button } from "react-native-paper";
 import { Form, Formik, Field } from "formik";
 import * as Yup from "yup";
 
@@ -42,7 +36,7 @@ const ConfirmForm = (props) => {
 
   return (
     <View>
-      <Text
+      {/* <Text
         style={{
           backgroundColor: "skyblue",
           textAlign: "center",
@@ -51,29 +45,37 @@ const ConfirmForm = (props) => {
         }}
       >
         Confirm Your Details
-      </Text>
-      <View style={styles.labelContainer}>
-        <Text style={styles.label}>Name</Text>
-        <Text style={styles.labelValue}>
-          {userDetails.firstName + " " + userDetails.lastName}
-        </Text>
-      </View>
-      <View style={styles.labelContainer}>
-        <Text style={styles.label}>Email</Text>
-        <Text style={styles.labelValue}>{userDetails.email}</Text>
-      </View>
-      <View style={styles.labelContainer}>
-        <Text style={styles.label}>Occupation</Text>
-        <Text style={styles.labelValue}>{userDetails.occupation}</Text>
-      </View>
-      <View style={styles.labelContainer}>
-        <Text style={styles.label}>City</Text>
-        <Text style={styles.labelValue}>{userDetails.city}</Text>
-      </View>
-      <View style={styles.labelContainer}>
-        <Text style={styles.label}>Bio</Text>
-        <Text style={styles.labelValue}>{userDetails.bio}</Text>
-      </View>
+      </Text> */}
+      <Appbar.Header style={{ marginTop: 0 }}>
+        <Appbar.Content
+          titleStyle={{ textAlign: "center" }}
+          title='Confirm Details'
+        />
+      </Appbar.Header>
+      <List.Section style={{ width: 360, alignSelf: 'center',  }}>
+        <List.Item
+          title={userDetails.firstName + " " + userDetails.lastName}
+          left={() => <List.Icon icon='account-box-outline' />}
+        />
+        <List.Item
+          title={userDetails.email}
+          left={() => <List.Icon icon='email' />}
+        />
+        <List.Item
+          title={userDetails.occupation}
+          left={() => <List.Icon icon='briefcase-outline' />}
+        />
+        <List.Item
+          title={userDetails.city}
+          left={() => <List.Icon icon='city-variant-outline' />}
+        />
+        <List.Item
+          title="About Me: "
+          description={userDetails.bio}
+          titleStyle={{}}
+          left={() => <List.Icon icon='account-details' />}
+        />
+      </List.Section>
       <View
         style={{
           marginHorizontal: 10,
@@ -82,26 +84,28 @@ const ConfirmForm = (props) => {
           justifyContent: "space-evenly",
         }}
       >
-        <Button title='Back' onPress={backStep} />
-        <Button title='Confirm & Submit' onPress={continueStep} />
+        <Button
+          icon='chevron-left-circle-outline'
+          title='Back'
+          onPress={backStep}
+          mode="outlined"
+        >
+          Back
+        </Button>
+        <Button
+          mode="contained"
+          icon='chevron-right-circle-outline'
+          contentStyle={{ flexDirection: "row-reverse" }}
+          title='Confirm & Submit'
+          onPress={continueStep}
+        >
+          Confirm & Submit
+        </Button>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  label: {
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  labelValue: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#666",
-  },
-  labelContainer: {
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
 });
 
 export default ConfirmForm;
