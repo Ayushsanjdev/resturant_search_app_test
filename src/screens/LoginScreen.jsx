@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TextInput, Button } from "react-native";
-import yelpImg from "../../assets/yelp.png";
 
 const LoginScreen = () => {
   const [userName, setUserName] = useState("");
@@ -8,7 +7,6 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={yelpImg} />
       <TextInput
         onChangeText={setUserName}
         value={userName}

@@ -1,12 +1,10 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import yelpImage from "../../assets/yelp.png";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const ErrorPage = () => {
   return (
     <View style={styles.container}>
-      <Image source={yelpImage} style={styles.logo} />
       <MaterialIcons
         name='dangerous'
         size={80}
