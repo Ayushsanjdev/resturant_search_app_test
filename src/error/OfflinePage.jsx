@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, ToastAndroid, View } from "react-native";
 import { useNetInfo } from "@react-native-community/netinfo";
-import ErrorPage from "./ErrorPage";
+import NoInternetPage from "./NoInternet";
 import { Snackbar, Text } from "react-native-paper";
 
 const OfflinePage = () => {
@@ -16,7 +16,7 @@ const OfflinePage = () => {
       </Text>
       <Text style={{ fontSize: 15}}>Is Connected?: {netInfo.isConnected && "Yes"}</Text>
       <Text style={{ fontSize: 15}}>is wifi enabled?: {netInfo.isWifiEnabled ? "Y" : "N"}</Text>
-      {!netInfo.isConnected && <ErrorPage />}
+      {!netInfo.isConnected && <NoInternetPage />}
       {/* <Snackbar
         style={{ backgroundColor: "lightgreen", bottom: 0 }}
         visible={showToast}

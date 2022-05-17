@@ -2,35 +2,67 @@ import React, { useState, useEffect } from "react";
 import { Image, View, FlatList, Text, StyleSheet } from "react-native";
 import yelp from "../api/yelp";
 import Loader from "../loader/Loader";
+import cache from "../util/cache";
+import { ToastAndroid } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
+import NoInternetPage from "../error/NoInternet";
+import Toast from 'react-native-toast-message';
 
 const ResultShowScreen = ({ route }) => {
   const [result, setResult] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [error, setError] = useState(false);
+  const [connected, setConnected] = useState(false);
   const { id } = route.params;
+  // const netInfo = useNetInfo();
 
   const getResult = async (id) => {
     setLoader(true);
     try {
       const response = await yelp.get(`/${id}`);
+      await cache.store(`/${id}`, response.data);
       setResult(response.data);
       setLoader(false);
+      setError(false);
     } catch (error) {
-      setLoader(false);
+      console.log('no error part ran')
+      const data = await cache.get(`/${id}`);
+      if (data) {
+        console.warn('yes data ran')
+        setResult(data);
+        setError(false);
+        setLoader(false);
+      } else {
+        setLoader(false);
+        console.warn('no data ran')
+        setError(true);
+      }
     }
   };
 
   useEffect(() => {
-    setLoader(true);
+    // Subscribe
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      // setConnected(state.isInternetReachable);
+      !state.isConnected &&
+        ToastAndroid.show("No Internet Access", ToastAndroid.SHORT);
+    });
     getResult(id);
-  }, []);
 
-  if (!result) {
-    return null;
-  }
+    return () => {
+      unsubscribe();
+    };
+  }, []); //first load call
+
+  // if (!result) {
+  //   return null;
+  // }
 
   return loader ? (
     <Loader secondary />
-  ) : (
+  ) : error ? (
+    <NoInternetPage />
+  ) : result && (
     <View style={styles.container}>
       <Text style={styles.title}>{result.name}</Text>
       <Text style={styles.subtitle}>

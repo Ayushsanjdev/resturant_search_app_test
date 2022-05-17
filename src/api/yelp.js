@@ -1,4 +1,5 @@
 import axios from "axios";
+import cache from '../util/cache';
 
 export default axios.create({
   baseURL: "https://api.yelp.com/v3/businesses",

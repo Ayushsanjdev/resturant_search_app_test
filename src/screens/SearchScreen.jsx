@@ -3,12 +3,13 @@ import { Image, View, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/search/SearchBar";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultList";
-import ErrorPage from "../error/ErrorPage";
+import NoInternetPage from "../error/NoInternet";
 import Loader from "../loader/Loader";
 
 const SearchScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
   const [searchApi, results, error, loader] = useResults();
+  // console.log(results);
 
   const filterResultByPrice = (price) => {
     return results.filter((result) => {
@@ -18,6 +19,7 @@ const SearchScreen = ({ navigation }) => {
 
   useEffect(() => {
     setTerm("");
+    // unsubscribe
   }, [error]);
 
   return loader ? (
@@ -30,7 +32,7 @@ const SearchScreen = ({ navigation }) => {
         onTermChange={setTerm}
       />
       {error ? (
-        <ErrorPage />
+        <NoInternetPage />
       ) : (
         <ScrollView>
           <ResultsList
