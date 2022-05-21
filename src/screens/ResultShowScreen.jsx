@@ -7,6 +7,7 @@ import { ToastAndroid } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import NoInternetPage from "../error/NoInternet";
 import Toast from 'react-native-toast-message';
+import { useNavigation } from "@react-navigation/native";
 
 const ResultShowScreen = ({ route }) => {
   const [result, setResult] = useState(null);
@@ -14,7 +15,7 @@ const ResultShowScreen = ({ route }) => {
   const [error, setError] = useState(false);
   const [connected, setConnected] = useState(false);
   const { id } = route.params;
-  // const netInfo = useNetInfo();
+  const navigation = useNavigation();
 
   const getResult = async (id) => {
     setLoader(true);
@@ -25,16 +26,16 @@ const ResultShowScreen = ({ route }) => {
       setLoader(false);
       setError(false);
     } catch (error) {
-      console.log('no error part ran')
+      // console.log('no error part ran')
       const data = await cache.get(`/${id}`);
       if (data) {
-        console.warn('yes data ran')
+        // console.warn('yes data ran')
         setResult(data);
         setError(false);
         setLoader(false);
       } else {
         setLoader(false);
-        console.warn('no data ran')
+        // console.warn('no data ran')
         setError(true);
       }
     }
@@ -43,9 +44,9 @@ const ResultShowScreen = ({ route }) => {
   useEffect(() => {
     // Subscribe
     const unsubscribe = NetInfo.addEventListener((state) => {
-      // setConnected(state.isInternetReachable);
+      setConnected(state.isInternetReachable);
       !state.isConnected &&
-        ToastAndroid.show("No Internet Access", ToastAndroid.SHORT);
+      ToastAndroid.show("No Internet Access", ToastAndroid.SHORT); 
     });
     getResult(id);
 
@@ -61,7 +62,7 @@ const ResultShowScreen = ({ route }) => {
   return loader ? (
     <Loader secondary />
   ) : error ? (
-    <NoInternetPage />
+    <NoInternetPage primaryText="Oops!" secondaryText="Please check your connection!" actionText="Retry" actionClick={() => getResult(id)} />
   ) : result && (
     <View style={styles.container}>
       <Text style={styles.title}>{result.name}</Text>

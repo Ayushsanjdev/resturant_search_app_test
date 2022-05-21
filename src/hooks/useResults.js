@@ -5,13 +5,14 @@ import cache from "../util/cache";
 import NetInfo from "@react-native-community/netinfo";
 import { Alert } from "react-native";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 export default () => {
   const [results, setResults] = useState([]);
   const [error, setError] = useState(false);
   const [loader, setLoader] = useState(false);
   const [connected, setConnected] = useState(false);
-
+  const navigation = useNavigation();
   const searchApi = async (searchTerm) => {
     setLoader(true);
     try {
@@ -36,19 +37,25 @@ export default () => {
       }
     }
   };
-  const showToast = (text) => {
-    ToastAndroid.show(text, ToastAndroid.SHORT);
-  };
+  // const showToast = (text) => {
+  //   ToastAndroid.show(text, ToastAndroid.SHORT);
+  // };
 
   useEffect(() => {
     // Subscribe
     const unsubscribe = NetInfo.addEventListener((state) => {
-      setConnected(state.isInternetReachable);
+      // setConnected(state.isInternetReachable);
       !state.isConnected &&
         ToastAndroid.show("No Internet Access", ToastAndroid.SHORT);
+        // Snackbar.show({
+        //   text: 'no internet',
+        //   duration: Snackbar.LENGTH_SHORT
+        // })
     });
     searchApi();
-
+    // NetInfo.addEventListener((state) => {
+    //   state.isConnected && navigation.navigate("NoInternet");
+    // });
     return () => {
       unsubscribe();
     };

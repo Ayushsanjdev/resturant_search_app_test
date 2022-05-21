@@ -1,13 +1,16 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import useResults from "../../hooks/useResults";
 
 const SearchBar = (props) => {
   const { term, onTermChange, onTermSubmit } = props;
+  const [error] = useResults();
   return (
     <View style={styles.backgroundStyle}>
       <Feather name='search' style={styles.iconStyle} />
       <TextInput
+        focusable={error} // donot focus when error
         autoCapitalize='none'
         autoCorrect={false}
         value={term}

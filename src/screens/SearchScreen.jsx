@@ -5,10 +5,13 @@ import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultList";
 import NoInternetPage from "../error/NoInternet";
 import Loader from "../loader/Loader";
-
+import { useNavigation } from "@react-navigation/native";
+// import { Snackbar } from "react-native-paper";
+// <Snackbar visible={true}>No Internet</Snackbar>
 const SearchScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
   const [searchApi, results, error, loader] = useResults();
+
   // console.log(results);
 
   const filterResultByPrice = (price) => {
@@ -19,8 +22,7 @@ const SearchScreen = ({ navigation }) => {
 
   useEffect(() => {
     setTerm("");
-    // unsubscribe
-  }, [error]);
+  }, [error]); //resetting search bar
 
   return loader ? (
     <Loader primary />
@@ -32,7 +34,7 @@ const SearchScreen = ({ navigation }) => {
         onTermChange={setTerm}
       />
       {error ? (
-        <NoInternetPage />
+        <NoInternetPage primaryText="Oops!" secondaryText="Please check your connection!" actionText="Retry" actionClick={() => searchApi('')} />
       ) : (
         <ScrollView>
           <ResultsList

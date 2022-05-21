@@ -5,8 +5,13 @@ import { Button } from "react-native-paper";
 import useResults from "../hooks/useResults";
 import { useNavigation } from "@react-navigation/native";
 
-const NoInternetPage = () => {
+const NoInternetPage = (props) => {
+  const { primaryText, secondaryText, actionClick, actionText } = props;
   const [searchApi, error] = useResults();
+  const navigation = useNavigation();
+  const handleRedirect = () => {
+    navigation.navigate("Home");
+  };
   return (
     <View style={styles.container}>
       <MaterialIcons
@@ -15,15 +20,17 @@ const NoInternetPage = () => {
         color='#888'
         style={styles.errorIcon}
       />
-      <Text style={styles.primaryText}>Ooops!</Text>
-      <Text style={styles.errorText}>Check connection!</Text>
-      {/* <Button
+      <Text style={styles.primaryText}>{primaryText || "Oops!"}</Text>
+      <Text style={styles.errorText}>
+        {secondaryText || "No internet connection"}
+      </Text>
+      <Button
         style={{ margin: 10 }}
-        onPress={() => }
+        onPress={actionClick || handleRedirect}
         mode='contained'
       >
-        Retry
-      </Button> */}
+        {actionText || "Home"}
+      </Button>
     </View>
   );
 };
