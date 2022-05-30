@@ -8,6 +8,7 @@ import NetInfo from "@react-native-community/netinfo";
 import NoInternetPage from "../error/NoInternet";
 import Toast from 'react-native-toast-message';
 import { useNavigation } from "@react-navigation/native";
+import useResults from "../hooks/useResults";
 
 const ResultShowScreen = ({ route }) => {
   const [result, setResult] = useState(null);
@@ -16,6 +17,7 @@ const ResultShowScreen = ({ route }) => {
   const [connected, setConnected] = useState(false);
   const { id } = route.params;
   const navigation = useNavigation();
+  const [results] = useResults();
 
   const getResult = async (id) => {
     setLoader(true);
@@ -42,27 +44,11 @@ const ResultShowScreen = ({ route }) => {
   };
 
   useEffect(() => {
-    // Subscribe
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setConnected(state.isInternetReachable);
-      !state.isConnected &&
-      ToastAndroid.show("No Internet Access", ToastAndroid.SHORT); 
-    });
     getResult(id);
-
-    return () => {
-      unsubscribe();
-    };
   }, []); //first load call
-
-  // if (!result) {
-  //   return null;
-  // }
 
   return loader ? (
     <Loader secondary />
-  ) : error ? (
-    <NoInternetPage primaryText="Oops!" secondaryText="Please check your connection!" actionText="Retry" actionClick={() => getResult(id)} />
   ) : result && (
     <View style={styles.container}>
       <Text style={styles.title}>{result.name}</Text>

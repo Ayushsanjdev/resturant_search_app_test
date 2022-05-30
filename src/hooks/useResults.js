@@ -5,15 +5,18 @@ import cache from "../util/cache";
 import NetInfo from "@react-native-community/netinfo";
 import { Alert } from "react-native";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
+
 
 export default () => {
   const [results, setResults] = useState([]);
   const [error, setError] = useState(false);
   const [loader, setLoader] = useState(false);
   const [connected, setConnected] = useState(false);
-  const navigation = useNavigation();
-  const searchApi = async (searchTerm) => {
+  const route = useRoute();
+  const routeName = route.name;
+
+  const searchApi = async (searchTerm, param) => {
     setLoader(true);
     try {
       const response = await yelp.get("/search", {
@@ -23,12 +26,12 @@ export default () => {
           location: "san jose",
         },
       });
-      await cache.store("/search", response.data.businesses);
+      await cache.store(`/${routeName}`, response.data.businesses);
       setResults(response.data.businesses);
       setLoader(false);
       setError(false);
     } catch (err) {
-      const data = await cache.get("/search");
+      const data = await cache.get(`/${routeName}`);
       setLoader(false);
       if (data) {
         setResults(data);
@@ -37,28 +40,9 @@ export default () => {
       }
     }
   };
-  // const showToast = (text) => {
-  //   ToastAndroid.show(text, ToastAndroid.SHORT);
-  // };
 
   useEffect(() => {
-    // Subscribe
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      // setConnected(state.isInternetReachable);
-      !state.isConnected &&
-        ToastAndroid.show("No Internet Access", ToastAndroid.SHORT);
-        // Snackbar.show({
-        //   text: 'no internet',
-        //   duration: Snackbar.LENGTH_SHORT
-        // })
-    });
     searchApi();
-    // NetInfo.addEventListener((state) => {
-    //   state.isConnected && navigation.navigate("NoInternet");
-    // });
-    return () => {
-      unsubscribe();
-    };
   }, []); //first load call
 
   return [searchApi, results, error, loader];

@@ -10,7 +10,6 @@ import NetInfo from "@react-native-community/netinfo";
 import NetworkDetector from "../hoc/NetworkDetector";
 
 const Stack = createStackNavigator();
-const NewComponent = NetworkDetector(HomeScreen)
 
 const StackNavigator = () => {
   
@@ -18,17 +17,17 @@ const StackNavigator = () => {
     <Stack.Navigator initialRouteName={"Home"}>
       <Stack.Screen
         name='Home'
-        component={NewComponent}
+        component={HomeScreen}
         options={{ headerTitle: "home screen" }}
       />
       <Stack.Screen
         name='Search'
-        component={SearchScreen}
+        component={NetworkDetector(SearchScreen)}
         options={{ headerTitle: "Search" }}
       />
       <Stack.Screen
         name='ResultShow'
-        component={ResultShowScreen}
+        component={NetworkDetector(ResultShowScreen)}
         options={{ headerTitle: "About" }}
       />
       <Stack.Screen
